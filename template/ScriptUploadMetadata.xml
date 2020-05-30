@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VugenScriptMetadata>
+    <ScriptName>{{{ScriptName}}}</ScriptName>
+    <Protocol>TruWeb</Protocol>
+    <ActionFiles>
+        <FileEntry Name="main.js" Filter="{{{Filter}}}" />
+    </ActionFiles>
+    <GeneralFiles>
+        {{{FileEntry}}}
+    </GeneralFiles>
+</VugenScriptMetadata>

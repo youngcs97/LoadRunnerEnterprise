@@ -1,0 +1,17 @@
+    //  <!--- {{{operationId}}} --->
+    //  {{{summary}}}
+    var params = {{{params}}};
+    let trans{{id}} = new load.Transaction("{{{operationId}}}");
+    trans{{id}}.start();
+    const webResponse{{{id}}} = new load.WebRequest({
+        id: {{id}},
+        url: url.scheme+"://"+url.host+url.basePath+"{{{path}}}",
+        method: "{{{method}}}",
+        headers: {{{headers}}},
+        body: JSON.stringify( 
+            {{{payload}}} 
+        )
+    }).sendSync();
+    webResponse{{{id}}}.json = JSON.parse(webResponse{{{id}}}.body)
+    trans{{id}}.stop();
+    load.log('webResponse{{{id}}}: \n\n' + webResponse{{{id}}}.body + '\n\n');

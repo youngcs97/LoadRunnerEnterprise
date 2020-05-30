@@ -1,0 +1,24 @@
+parameters:
+  - name: value1
+    type: csv
+    fileName: data.csv
+    columnName: Value1
+    nextValue: iteration
+    nextRow: sequential
+    onEnd: loop
+  - name: value2
+    type: csv
+    fileName: data.csv
+    columnName: Value2
+    nextValue: iteration
+    nextRow: same as value1
+    onEnd: loop
+    
+# Read values from parameters.yml
+# var value1 = `${load.params.value1}`;
+# var value2 = `${load.params.value2}`;
+
+# Example of assert statements within a Transaction
+# let trans0 = new load.Transaction(`Sent [${value1}]; expected [${value2}]; received [${webResponse2.json}]`);
+# trans0.start()
+# trans0.stop((webResponse2.json==value2)?load.TransactionStatus.Passed:load.TransactionStatus.Failed);

@@ -1,0 +1,13 @@
+//DevWeb script information:  https://admhelp.microfocus.com/truweb/en/latest/help/Content/DevWeb/DW-scripts.htm
+
+load.initialize(async function () {
+});
+
+load.action("Action", async function () {
+
+{{{action}}}
+
+});
+
+load.finalize(async function () {
+});

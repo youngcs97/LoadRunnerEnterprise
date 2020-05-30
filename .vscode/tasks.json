@@ -1,0 +1,142 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "echo",
+            "type": "shell",
+            "command": "echo Hello"
+        },
+        {
+          "label": "Node Run",
+          "type": "process",
+          "presentation": {
+            "panel": "new"
+          },
+          "command": "node.exe",
+          "windows": {
+            "command": "node.exe"
+          },
+          "osx": {
+            "command": "node"
+          },
+          "linux": {
+            "command": "node"
+          },
+          "args": [
+            "${fileBasename}"
+          ]
+        },
+        {
+          "label": "Swagger Parse",
+          "type": "process",
+          "presentation": {
+            "panel": "new"
+          },
+          "command": "node.exe",
+          "windows": {
+            "command": "node.exe"
+          },
+          "osx": {
+            "command": "node"
+          },
+          "linux": {
+            "command": "node"
+          },
+          "args": [
+            "${workspaceFolder}/app.swaggerparse.js",
+            "${relativeFile}"
+          ]
+        },
+        {
+            "label": "TruWeb Single Run",
+            "type": "process",
+            "presentation": {
+              "panel": "new"
+            },
+            "command": "${env:TRUWEB_PATH}/TruWeb",
+            "windows": {
+              "command": "${env:TRUWEB_PATH}\\TruWeb.exe"
+            },
+            "osx": {
+              "command": "${env:TRUWEB_PATH}/TruWeb"
+            },
+            "linux": {
+              "command": "${env:TRUWEB_PATH}/TruWeb"
+            },
+            "args": [
+              "-ide=vscode",
+              "${fileDirname}"
+            ]
+          },
+          {
+            "label": "TruWeb Load Run",
+            "type": "process",
+            "presentation": {
+              "panel": "new"
+            },
+            "command": "${env:TRUWEB_PATH}/TruWeb",
+            "windows": {
+              "command": "${env:TRUWEB_PATH}\\TruWeb.exe"
+            },
+            "osx": {
+              "command": "${env:TRUWEB_PATH}/TruWeb"
+            },
+            "linux": {
+              "command": "${env:TRUWEB_PATH}/TruWeb"
+            },
+            "args": [
+              "-mode=load",
+              "-ide=vscode",
+              "${fileDirname}"
+            ]
+          },
+          {
+            "label": "TruWeb Debug Run",
+            "type": "process",
+            "command": "${env:TRUWEB_PATH}/TruWeb",
+            "windows": {
+              "command": "${env:TRUWEB_PATH}\\TruWeb.exe"
+            },
+            "osx": {
+              "command": "${env:TRUWEB_PATH}/TruWeb"
+            },
+            "linux": {
+              "command": "${env:TRUWEB_PATH}/TruWeb"
+            },
+            "isBackground": true,
+            "presentation": {
+              "panel": "new"
+            },
+            "args": [
+              "-inspect",
+              "-ide=vscode",
+              "${workspaceRoot}"
+            ]
+          }
+          {
+            "label": "OfflineGenerator",
+            "type": "process",
+            "presentation": {
+              "panel": "new"
+            },
+            "command": "${env:TRUWEB_PATH}/OfflineGenerator",
+            "windows": {
+              "command": "${env:TRUWEB_PATH}\\OfflineGenerator.exe"
+            },
+            "osx": {
+              "command": "${env:TRUWEB_PATH}/OfflineGenerator"
+            },
+            "linux": {
+              "command": "${env:TRUWEB_PATH}/OfflineGenerator"
+            },
+            "args": [
+              "-mode=har",
+              "-level=pages",
+              "${file}",
+              "${relativeFileDirname}/${fileBasenameNoExtension}"
+            ]
+          },
+    ]
+}

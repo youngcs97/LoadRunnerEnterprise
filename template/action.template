@@ -1,0 +1,20 @@
+    //load the URL configuration from a file
+    const url = require('./url.json');
+
+    //Read values from parameters.yml
+    var value1 = `${load.params.value1}`;
+	var value2 = `${load.params.value2}`;
+
+    //Setup WebRequest defaults
+    load.WebRequest.defaults.returnBody = true;
+    load.WebRequest.defaults.headers = {
+        "Content-Type": "application/json; charset=utf-8"
+    };
+
+{{{webrequest}}}
+
+
+    //Example asserts from parameters
+    //let trans0 = new load.Transaction(`Sent [${value1}]; expected [${value2}]; received [${webResponse2.json}]`);
+    //trans0.start()
+    //trans0.stop((webResponse2.json==value2)?load.TransactionStatus.Passed:load.TransactionStatus.Failed);

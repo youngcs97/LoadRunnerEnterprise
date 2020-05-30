@@ -1,0 +1,45 @@
+[General]
+Type=TruWeb
+DefaultCfg=default.cfg
+MajorVersion=12
+MinorVersion=61
+ParameterFile=
+GlobalParameterFile=
+RunType=TruWeb
+NewFunctionHeader=1
+ActionLogicExt=action_logic
+LastActiveAction=Main
+DevelopTool=Vugen
+LastModifyVer=12.61.0.971
+ActiveTypes=TruWeb
+AdditionalTypes=TruWeb
+GenerateTypes=TruWeb
+ParamLeftBrace={
+ParamRightBrace=}
+ScriptLanguage=JavaScript
+LastCodeGenerationVer=
+DisableRegenerate=0
+Encoding=
+Description=
+ScriptLocale=en-US
+[ExtraFiles]
+{{{Extra}}}
+[Actions]
+Main=main.js
+[Recorded Actions]
+Main=1
+[Modified Actions]
+Main=0
+[Replayed Actions]
+Main=0
+[Interpreters]
+Main=TruWeb
+[TransactionsOrder]
+Order="{{{Order}}}"
+[StateManagement]
+LastReplayStatus=0
+[ActiveReplay]
+LastReplayedRunName=
+ActiveRunName=
+[Transactions]
+{{{Transactions}}}

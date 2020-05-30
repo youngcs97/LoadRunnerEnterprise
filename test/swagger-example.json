@@ -1,0 +1,112 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Dataaccess.com Webservicesserver",
+    "description": "Version 1.0.0 - This API demonstrates how to call REST",
+    "version": "1.0.0",
+    "x-ibm-name": "Dataaccess.com Webservicesserver"
+  },
+  "host": "www.dataaccess.com",
+  "basePath": "/webservicesserver",
+  "schemes": [
+    "http"
+  ],
+  "consumes": ["application/json"],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/Numberconversion.wso/NumberToWords/JSON": {
+      "post": {
+        "summary": "Returns the word corresponding to the positive number passed as parameter. Limited to quadrillions..",
+        "operationId": "NumberToWords",
+      
+        "parameters": [
+          {
+            "name": "NumberToWords",
+            "in": "body",
+            "description": "NumberToWordBody",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NumberToWords"
+            }
+          },
+          {
+            "name": "foo",
+            "in": "header",
+            "default": "bar",
+            "description": "Just a fictitious header to show an example.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "500": {
+            "description": "500 Error"
+          }
+        }
+      }
+    },
+    "/TextCasing.wso/AllUppercaseWithToken/JSON": {
+      "post": {
+        "summary": "Returns a string changed to uppercase adding token between characters.",
+        "operationId": "AllUppercaseWithToken",
+        "parameters": [
+          {
+            "name": "AllUppercaseWithToken",
+            "in": "body",
+            "description": "AllUppercaseWithTokenBody",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AllUppercaseWithToken"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "500": {
+            "description": "500 Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "NumberToWords": {
+      "type": "object",
+      "properties": {
+        "ubiNum": {
+          "type": "integer",
+          "default": 0,
+          "description": "Positive number to be converted to a word."
+        }
+      }
+    },
+    "AllUppercaseWithToken": {
+      "type": "object",
+      "properties": {
+        "sAString": {
+          "type": "string",
+          "default": "zero",
+          "description": "String to be changed to uppercase adding token between characters."
+        },
+        "sToken": {
+          "type": "string",
+          "default": "-",
+          "description": "Token to add between characters."
+        }
+      }
+    }
+  }
+}
