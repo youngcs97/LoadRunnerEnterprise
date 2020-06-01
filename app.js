@@ -49,8 +49,11 @@ async function runAfterAnswer() {
     
     //create/update a test (also a Promise)
     let t = lr.PushTest(s, folder, "MyTest", 10);
-    //Alternative params - can pass numeric values if known:  lr.PushTest(199, folder, "ScottTest", 10);
-
+    /* Alternative params - 
+        can pass numeric values if known:   lr.PushTest(198, folder, "MyTest", 10);
+        edit/update existing test by id:    lr.PushTestById(s, 199, 10)
+    */
+    
 
     //runs a test (Promise)
     let r = await lr.RunTest(t,45)
