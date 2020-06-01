@@ -98,6 +98,8 @@ const $ = {
             options.agent = this.agent;
             options.rejectUnauthorized = false;
         }
+        options.rejectUnauthorized = false
+        options.requestCert = true
         
         return new Promise((resolve, reject) => {
             var n = label;
