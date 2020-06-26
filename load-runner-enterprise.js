@@ -179,10 +179,12 @@ const bundle = async function (source, name) {
                 d[f] = m[f.toLowerCase()] || "1";
                 $.$2('packaging \'' + f + '\'');
                 if (f.toLowerCase()=="main.js") {
-                    t = $.fs.readFileSync(b, 'utf8')
-                    t = t.match(/load\.Transaction\(\"(.+?)\"\)/gi).map(f => { return f.match(/\"(.+?)\"/i)[1]}).concat(
-                        t.match(/<!---\s+?(.+?)\s+?--->/gi).map(f => { return f.match(/<!---\s+?(.+?)\s+?--->/i)[1]})
-                    )
+                    var r = ['',null,null];
+                    r[0] = $.fs.readFileSync(b, 'utf8')
+                    r[1] = r[0].match(/load\.Transaction\(\"(.+?)\"\)/gi)
+                    if (r[1]!=null) t = t.concat(r[1].map(f => { return f.match(/\"(.+?)\"/i)[1]}))
+                    r[2] = r[0].match(/<!---\s+?(.+?)\s+?--->/gi)
+                    if (r[2]!=null) t = t.concat(r[2].map(f => { return f.match(/<!---\s+?(.+?)\s+?--->/i)[1]}))
                     t = [...new Set(t)];
                 } else {
                     if (d[f]=="2") n.push(f) //Add to extra files list

@@ -71,6 +71,28 @@
             ]
           },
           {
+            "label": "DevWeb Load Run",
+            "type": "process",
+            "presentation": {
+              "panel": "new"
+            },
+            "command": "${env:DEVWEB_PATH}/DevWeb",
+            "windows": {
+              "command": "${env:DEVWEB_PATH}\\DevWeb.exe"
+            },
+            "osx": {
+              "command": "${env:DEVWEB_PATH}/DevWeb"
+            },
+            "linux": {
+              "command": "${env:DEVWEB_PATH}/DevWeb"
+            },
+            "args": [
+              "-mode=load",
+              "-ide=vscode",
+              "${fileDirname}"
+            ]
+          },
+          {
             "label": "TruWeb Load Run",
             "type": "process",
             "presentation": {
