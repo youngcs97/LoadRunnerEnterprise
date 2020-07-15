@@ -167,7 +167,7 @@ const bundle = async function (source, name) {
     async function zip(dir) {
         var z = new jszip();
         //capture a file list with "filter" values
-        var m = {"default.usr":"4", "default.cfg":"4", "default.usp":"4", "parameters.yml":"2", "rts.yml":"2", "main.js":"2", "url.json":"2"};
+        var m = {"default.usr":"4", "default.cfg":"4", "default.usp":"4", "parameters.yml":"2", "rts.yml":"2", "main.js":"2", "url.json":"2", "data.csv":"2"};
         var d = {"default.usr":"4"};
         var n = [];     //extra files
         var t = [];     //transactions
