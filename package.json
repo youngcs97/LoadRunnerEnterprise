@@ -14,6 +14,7 @@
     "jszip": "^3.5.0",
     "path": "^0.12.7",
     "request": "^2.88.0",
-    "swagger-parser": "^8.0.3"
+    "swagger-parser": "^8.0.3",
+    "xml-js": "^1.6.11"
   }
 }

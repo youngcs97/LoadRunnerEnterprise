@@ -1,0 +1,6 @@
+# All times are defined in seconds
+vusers: {{{vusers}}}
+pacing: 0
+rampUp: {{{rampup}}}
+duration: {{{duration}}}
+tearDown: 0

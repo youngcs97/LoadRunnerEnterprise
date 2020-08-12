@@ -1,0 +1,1 @@
+{{{separator}}}        var {{{name}}} = webResponse{{{id}}}.extractors.{{{name}}}.trim();

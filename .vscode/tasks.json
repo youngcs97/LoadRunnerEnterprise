@@ -50,6 +50,27 @@
           ]
         },
         {
+          "label": "Portal XML Parse",
+          "type": "process",
+          "presentation": {
+            "panel": "new"
+          },
+          "command": "node.exe",
+          "windows": {
+            "command": "node.exe"
+          },
+          "osx": {
+            "command": "node"
+          },
+          "linux": {
+            "command": "node"
+          },
+          "args": [
+            "${workspaceFolder}/app.xmlparse.js",
+            "${relativeFile}"
+          ]
+        },
+        {
             "label": "TruWeb Single Run",
             "type": "process",
             "presentation": {

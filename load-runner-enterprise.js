@@ -1210,7 +1210,7 @@ module.exports.swagger = {
                                         headers[item.name] = (item.default == null) ? "<" + item.name.toString() + "\/>" : item.default.toString();
                                         break;
                                     case "body":
-                                        switch (item.schema.type.toLowerCase()) {
+                                        switch (((item.schema.type)||(typeof item.schema)).toLowerCase()) {
                                             case "object":
                                                 payload = recurseProperties(item.schema.properties);
                                                 break;

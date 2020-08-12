@@ -1,0 +1,10 @@
+    //load the URL configuration from a file
+    const url = require('./url.json');
+
+    //Setup WebRequest defaults
+    load.WebRequest.defaults.returnBody = true;
+    load.WebRequest.defaults.headers = {
+        "Content-Type": "application/json; charset=utf-8"
+    };
+
+{{{webrequest}}}

@@ -1,0 +1,11 @@
+
+load.initialize(async function () {
+});
+
+load.action("Action", async function () {
+
+{{{action}}}
+});
+
+load.finalize(async function () {
+});
