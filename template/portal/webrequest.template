@@ -1,6 +1,6 @@
     //  <!--- {{{title}}} --->
     for (var loopcount=1; loopcount<={{{loopcount}}}; loopcount++) {    
-        {{#if parameters }}{{#each parameter }}var {{{@key}}} = `{{{this}}}`;
+        {{#if parameter }}{{#each parameter }}var {{{@key}}} = `{{{this}}}`;
         {{else}}{{/each}}{{/if}}var $ = SendSync({
             id: {{{id}}},
             title: "{{{title}}}",
