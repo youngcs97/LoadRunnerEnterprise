@@ -50,47 +50,35 @@
           ]
         },
         {
-          "label": "Portal XML Parse",
+          "label": "Portal XML Parse", "type": "process",
+          "presentation": { "panel": "new" },
+          "command": "node.exe",
+          "windows": { "command": "node.exe" },
+          "osx": { "command": "node" },
+          "linux": { "command": "node" },
+          "args": [ "${workspaceFolder}/app.xmlparse.js", "${relativeFile}" ]
+        },
+        {
+          "label": "DevWeb Single Run",
           "type": "process",
           "presentation": {
             "panel": "new"
           },
-          "command": "node.exe",
+          "command": "${env:DEVWEB_PATH}/DevWeb",
           "windows": {
-            "command": "node.exe"
+            "command": "${env:DEVWEB_PATH}\\DevWeb.exe"
           },
           "osx": {
-            "command": "node"
+            "command": "${env:DEVWEB_PATH}/DevWeb"
           },
           "linux": {
-            "command": "node"
+            "command": "${env:DEVWEB_PATH}/DevWeb"
           },
           "args": [
-            "${workspaceFolder}/app.xmlparse.js",
-            "${relativeFile}"
+            "-ide=vscode",
+            "${fileDirname}"
           ]
         },
-        {
-            "label": "TruWeb Single Run",
-            "type": "process",
-            "presentation": {
-              "panel": "new"
-            },
-            "command": "${env:TRUWEB_PATH}/TruWeb",
-            "windows": {
-              "command": "${env:TRUWEB_PATH}\\TruWeb.exe"
-            },
-            "osx": {
-              "command": "${env:TRUWEB_PATH}/TruWeb"
-            },
-            "linux": {
-              "command": "${env:TRUWEB_PATH}/TruWeb"
-            },
-            "args": [
-              "-ide=vscode",
-              "${fileDirname}"
-            ]
-          },
           {
             "label": "DevWeb Load Run",
             "type": "process",
@@ -109,6 +97,27 @@
             },
             "args": [
               "-mode=load",
+              "-ide=vscode",
+              "${fileDirname}"
+            ]
+          },
+          {
+            "label": "TruWeb Single Run",
+            "type": "process",
+            "presentation": {
+              "panel": "new"
+            },
+            "command": "${env:TRUWEB_PATH}/TruWeb",
+            "windows": {
+              "command": "${env:TRUWEB_PATH}\\TruWeb.exe"
+            },
+            "osx": {
+              "command": "${env:TRUWEB_PATH}/TruWeb"
+            },
+            "linux": {
+              "command": "${env:TRUWEB_PATH}/TruWeb"
+            },
+            "args": [
               "-ide=vscode",
               "${fileDirname}"
             ]
@@ -157,22 +166,42 @@
               "-ide=vscode",
               "${workspaceRoot}"
             ]
-          }
+          },
+          {
+            "label": "ProxyRecorder",
+            "type": "process",
+            "presentation": {
+              "panel": "new"
+            },
+            "command": "${env:DEVWEB_PATH}/ProxyRecorder",
+            "windows": {
+              "command": "${env:DEVWEB_PATH}\\ProxyRecorder.exe"
+            },
+            "osx": {
+              "command": "${env:DEVWEB_PATH}/ProxyRecorder"
+            },
+            "linux": {
+              "command": "${env:DEVWEB_PATH}/ProxyRecorder"
+            },
+            "args": [
+              "${workspaceFolder}/ProxyRecorder.har"
+            ]
+          },
           {
             "label": "OfflineGenerator",
             "type": "process",
             "presentation": {
               "panel": "new"
             },
-            "command": "${env:TRUWEB_PATH}/OfflineGenerator",
+            "command": "${env:DEVWEB_PATH}/OfflineGenerator",
             "windows": {
-              "command": "${env:TRUWEB_PATH}\\OfflineGenerator.exe"
+              "command": "${env:DEVWEB_PATH}\\OfflineGenerator.exe"
             },
             "osx": {
-              "command": "${env:TRUWEB_PATH}/OfflineGenerator"
+              "command": "${env:DEVWEB_PATH}/OfflineGenerator"
             },
             "linux": {
-              "command": "${env:TRUWEB_PATH}/OfflineGenerator"
+              "command": "${env:DEVWEB_PATH}/OfflineGenerator"
             },
             "args": [
               "-mode=har",

@@ -9,12 +9,12 @@ const $ = {
      * Error message handler
      * @param {*} message 
      */
-    $0: function(message) { console.error(message) }, 
+    $0: function(message) { console.error(message.substring(0, 5000)) }, 
     /**
      * Warning message handler
      * @param {*} message 
      */
-    $1: function(message) { console.error(message) }, 
+    $1: function(message) { console.error(message.substring(0, 5000)) }, 
     /**
      * Informational message handler
      * @param {*} message 
@@ -43,6 +43,15 @@ const $ = {
             if (!isNaN(r)) return [r, value];
         }
         return [null, value];
+    },
+
+    /**
+     * Coerces an object to an array
+     * @param {object} source Source object
+     * @returns {Array<object>} Object converted to an Array
+     */
+    toArray: function (source) {
+        return Array.isArray(source) ? source : [source];
     },
 
 
@@ -158,6 +167,7 @@ module.exports = {
  */
 const bundle = async function (source, name) {
     
+
     const { join } = $.path;
     const util = $.util;
     const jszip = require("jszip");
@@ -534,7 +544,24 @@ const tests = {
      * @param {number} vusers Number of vusers for test (default=1)
      */
     _body: function(name=null, folder=null, scriptid, vusers=1) {
-        if (vusers>100) vusers = 100;
+        var g = []
+        var s = $.toArray(scriptid)
+        var v = $.toArray(vusers)
+        for (var i = 0; i < s.length; i++) {
+            if (i < v.length) vusers = v[i];
+            if (vusers>100) vusers = 100;
+            g.push({
+                "Name": (s.length==1)?"web":`ThreadGroup-${i.toString().padStart(2,'0')}`,
+                "Vusers": vusers,
+                "Script": { "ID": s[i] },
+                "Hosts": [ { "Name": "LG1", "Type": "automatch" } ],
+                "RTS": {
+                    "Pacing": { "NumberOfIterations": 1, "StartNewIteration": { "Type": "immediately" } },
+                    "ThinkTime": { "Type": "replay" },
+                    "Log": { "Type": "disable" }
+                }
+            });
+        }
         var r = {
             "Name": name,
             "TestFolderPath": folder,
@@ -545,19 +572,7 @@ const tests = {
                     "VusersDistributionMode": "by number"
                 },
                 "LGDistribution": { "Type": "manual" },
-                "Groups": [
-                    {
-                        "Name": "web",
-                        "Vusers": vusers,
-                        "Script": { "ID": scriptid },
-                        "Hosts": [ { "Name": "LG1", "Type": "automatch" } ],
-                        "RTS": {
-                            "Pacing": { "NumberOfIterations": 1, "StartNewIteration": { "Type": "immediately" } },
-                            "ThinkTime": { "Type": "replay" },
-                            "Log": { "Type": "disable" }
-                        }
-                    }
-                ],
+                "Groups": g,
                 "Scheduler": {
                     "Actions": [
                         { "Initialize": { "Type": "just before vuser runs"} },
@@ -568,6 +583,7 @@ const tests = {
                 }
             }
         }
+        $.$2(r)
         return ((name||'').trim().length>0) ? r : r.Content;
     },
     /**
@@ -1085,18 +1101,34 @@ const pushtest = async function(script, test, vusers = 1) {
                 var t = $.cint(all[0]);
                 if ((t[0]==null)&&!c) throw `Test ID not valid: ${JSON.stringify(all[0])}`
                 if (c) c = (t[0]==null) //only create if cint returned empty
-                var s = $.cint(all[1]);
-                $.$2(s)
-                if (s[0]==null) throw `Script ID not valid: ${JSON.stringify(all[1])}`
-                let r = { 
-                    "script": s[1], 
-                    //create or update
-                    "test": c ?
-                        tests.create(v[0], v[1], s[0], vusers) :
-                        tests.update(t[0], s[0], vusers, false)
+                let r;
+                if (Array.isArray(all[1])) {
+                    var s = all[1];
+                    for (var i=0; i<s.length; i++) {
+                        var j = $.cint(s[i]);
+                        if (j[0]==null) throw `Script ID not valid: ${JSON.stringify(all[1])}`
+                        s[i]=j[0]
+                    }
+                    r = { 
+                        "script": s, 
+                        //create or update
+                        "test": c ?
+                            tests.create(v[0], v[1], s, vusers) :
+                            tests.update(t[0], s, vusers, false)
+                    }
+                } else {
+                    var s = $.cint(all[1]);
+                    if (s[0]==null) throw `Script ID not valid: ${JSON.stringify(all[1])}`
+                    r = { 
+                        "script": s[1], 
+                        //create or update
+                        "test": c ?
+                            tests.create(v[0], v[1], s[0], vusers) :
+                            tests.update(t[0], s[0], vusers, false)
+                    }
+                    //unexpected cint eval = return simple object with the interpreted id
+                    if ((typeof(r.script)!="object")||(Array.isArray(r.script))) r.script = {ID: s[0]}
                 }
-                //unexpected cint eval = return simple object with the interpreted id
-                if ((typeof(r.script)!="object")||(Array.isArray(r.script))) r.script = {ID: s[0]}
                 Promise.all([r.test]).then(async function(all){
                     r.test = all[0];
                     resolve(r);

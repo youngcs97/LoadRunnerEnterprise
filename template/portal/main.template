@@ -1,3 +1,30 @@
+function SendSync($) {
+    var tx = new load.Transaction($.title)
+    var rq = new load.WebRequest({id: $.id, url: $.url, method: $.method, headers: $.headers, body: $.body, extractors: ($.extractors==null)?[]:$.extractors})
+    var v = $.validate;
+    if ((v!=null)&&(v.find!=null)&&(v.find.length>0)) {
+        rq.extractors.push(new load.TextCheckExtractor(".", v.find, load.ExtractorScope.Body))
+    }
+    tx.start();
+    var rs = rq.sendSync();
+    rs.json = JSON.parse(rs.body);
+    var b = load.TransactionStatus.Passed;
+    if (v!=null) {
+        if ((v.status!=null)&&(!isNaN(parseInt(v.status)))&&(parseInt(v.status)!=rs.status)) {
+            load.log(`HttpStatus ${rs.status} does not equal desired ${parseInt(v.status)}.`)
+            b = load.TransactionStatus.Failed
+        } else {
+            if ((v.find!=null)&&(v.find.length>0)&&(!rs.extractors["."])) {
+                load.log(`Desired text '${v.find}' not found.`)
+                b = load.TransactionStatus.Failed
+            }
+        }
+    }
+    tx.stop(b);
+    load.log(`webResponse${rq.id}: \n\n${rs.body}\n\n`);
+    return rs;
+}
+
 
 load.initialize(async function () {
 });

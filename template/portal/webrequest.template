@@ -1,22 +1,18 @@
     //  <!--- {{{title}}} --->
-    const params = {{{params}}};
-    const trans{{id}} = new load.Transaction("{{{title}}}");
-    const webResponse{{{id}}} = new load.WebRequest({
-        id: {{id}},
-        url: `{{{url}}}`,
-        method: "{{{method}}}",
-        headers: {{{headers}}},
-        body: JSON.stringify( 
-            {{{body}}} 
-        ),
-        extractors: [{{{extractors}}}]
-    })
-    for (var loopcount=1; loopcount<={{{loopcount}}}; loopcount++) {
-        trans{{id}}.start();
-        webResponse{{{id}}}.sendSync();
-        webResponse{{{id}}}.json = JSON.parse(webResponse{{{id}}}.body)
-        trans{{id}}.stop();
-        load.log('webResponse{{{id}}}: \n\n' + webResponse{{{id}}}.body + '\n\n');
-{{{extractions}}}
+    for (var loopcount=1; loopcount<={{{loopcount}}}; loopcount++) {    
+        {{#if parameters }}{{#each parameter }}var {{{@key}}} = `{{{this}}}`;
+        {{else}}{{/each}}{{/if}}var $ = SendSync({
+            id: {{{id}}},
+            title: "{{{title}}}",
+            url: `{{{url}}}`,
+            method: "{{{method}}}",
+            headers: {{{headers}}},
+            validate: {{{validate}}},
+            body: JSON.stringify( 
+                {{{body}}} 
+            ){{#if extractors }}, 
+            extractors: [{{#each extractors }}new load.RegexpExtractor({{{this.name}}},{{{this.value}}},"im"){{#unless @last}}, {{/unless}}{{else}}{{/each}}]{{/if}}
+            
+        });{{#if extractor }}{{#each extractor }}
+        var {{{@key}}} = $.extractors.{{{@key}}}.trim();{{else}}{{/each}}{{/if}}
     }
-
