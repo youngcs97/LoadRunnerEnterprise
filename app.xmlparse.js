@@ -154,7 +154,7 @@ var $ = {
             o=origin.length-1 
         }
         if ((t.length > 0)||(n.length > 0)) {
-            target.push({loopcount: l, status: s, validate: $.Stringify({"status": s, "find": f}), find: f, body: b, headers: $.Stringify(h), method: m, origin: decodeURI(u.origin), url: $.toPath(u.pathname, o), title: t, extractor: e, parameter: p})
+            target.push({loopcount: l, validate: $.Stringify({"status": s, "find": f}), body: b, headers: $.Stringify(h), method: m, origin: decodeURI(u.origin), url: $.toPath(u.pathname, o), title: t, extractor: e, parameter: p})
         }
     }
 }
@@ -193,6 +193,7 @@ var tgx = $.toArray(xml.RequestInputXML.threadgroup)
 
 //build threadgroups
 var tgs = [];
+var table = [];
 for (var j=0; j<tgx.length; j++) {
     
     //loop through all endpoints
@@ -213,6 +214,7 @@ for (var j=0; j<tgx.length; j++) {
     tgs.push(tg);
 
     //output variable to hold javascript
+    var stats = [0,0];
     var output = "";
     var eps = tg.eps;
     for (var i = 0; i < eps.length; i++) {
@@ -223,6 +225,8 @@ for (var j=0; j<tgx.length; j++) {
             x.extractors.push({name: JSON.stringify(p), value: JSON.stringify(x.extractor[p])})
         }
         output += "\r\n"+template.webrequest(x); //for each eps, build javascript from template
+        stats[0]+=Object.keys(x.extractor).length
+        stats[1]+=Object.keys(x.parameter).length
     }
     output = template.action({ webrequest: output })
     output = template.main({ action: output })
@@ -241,9 +245,13 @@ for (var j=0; j<tgx.length; j++) {
     fs.writeFileSync(d+'scenario.yml', template.scenario(scenario));
     fs.writeFileSync(d+'rts.yml', template.rts({}));
 
+    table.push({Origins: tg.origin.length, Endpoints: tg.eps.length, Extractors: stats[0], Parameters: stats[1] })
+
 }
 process.stdout.write(`\r${' '.repeat(100)}`)
 process.stdout.write(`\r${tgs.length} script${(tgs.length==1)?'':'s'} created in '${base}'.\r\n`)
+console.table(table);
+console.log();
 
 //LRE setup for pushing scripts to PC
 const lr = require("./load-runner-enterprise.js");
