@@ -238,6 +238,7 @@ const vugen = async function (source, name) {
 
 /**
  * Packages a source directory for uploading using either zip or 'npm pack'
+ * @param {string} source source directory
  * @param {boolean} npm true: use 'npm pack' command (default=false)
  */
 const bundle = async function (source, npm = false) {
