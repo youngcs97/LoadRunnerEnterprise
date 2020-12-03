@@ -165,8 +165,7 @@ module.exports = {
  * @param {string} name script target name
  * @returns {Buffer} Buffer representing the zip file
  */
-const bundle = async function (source, name) {
-    
+const vugen = async function (source, name) {
 
     const { join } = $.path;
     const util = $.util;
@@ -238,6 +237,55 @@ const bundle = async function (source, name) {
 }
 
 /**
+ * Packages a source directory for uploading using either zip or 'npm pack'
+ * @param {boolean} npm true: use 'npm pack' command (default=false)
+ */
+const bundle = async function (source, npm = false) {
+    if (npm) {
+        var p = $.path;
+        var s = p.resolve(source);
+        var d = p.dirname(s);
+        var t = s.replace(d, "").replace(p.sep, "./");
+        $.$2(`packing "${t}"`);
+        const exec = require('child_process').exec;
+        return new Promise((resolve, reject) => {
+            exec(`npm pack ${t}`, { cwd: d }, (error, stdout, stderr) => {
+                if (error) {
+                    $.$1(error);
+                    reject(error);
+                }
+                var f = d + p.sep + stdout.trim();
+                $.$2(`zip file "${f}" created.`);
+                resolve($.fs.createReadStream(f))
+            });
+        });
+    } else {
+        const { join } = $.path;
+        const util = $.util;
+        const jszip = require("jszip");
+        const fs = require('fs');
+        fs.readdir = util.promisify(fs.readdir)
+        let { readdir } = fs;
+        async function zip(dir) {
+            var z = new jszip();
+            const files = (await readdir(dir)).map(f => { 
+                var b = join(dir, f)
+                if ($.fs.lstatSync(b).isDirectory()==false) { 
+                    z.file(f, $.fs.createReadStream(b, 'binary'));
+                    $.$2('packaging \'' + f + '\'');
+                }
+                return b;
+            }) 
+            $.$2("zip.generateAsync()");
+            return z.generateAsync({ type: 'nodebuffer', streamFiles: false })
+        }
+        $.$2('source \'' + source + '\'');
+        return zip(source);
+    }
+}
+module.exports.Bundle = bundle
+
+/**
  * Logon to LoadRunnerEnterprise
  * @param {string} user userid (default=config.user)
  * @param {string} password password (default=config.password)
@@ -272,7 +320,7 @@ module.exports.Logon = logon
  * Upload a script asset to LoadRunnerEnterprise
  * @param {string} name Desired name of script asset
  * @param {string} folder Folder path
- * @param {stream} stream Stream to upload (use .bundle method)
+ * @param {stream} stream Stream to upload (use .bundle or .vugen method)
  * @param {string} token Token from logon
  * @returns {Promise<any>} Results of the upload request
  */
@@ -1032,7 +1080,7 @@ const PushScript = async function(source, path, name = null) {
             
             //bundle and logon can be performed independently
             let l = logon();    
-            let b = bundle(source,name);    
+            let b = bundle(source);   //possibly call vugen method for older PC 12.63 and below:  vugen(source, name)  
             Promise.all([b, l]).then(async function(all){   //both the bundle and logon must be completed before moving on
                 Promise.all([upload(name,path,all[0])]).then(async function(all){
                     resolve(all[0]);
