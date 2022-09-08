@@ -11,7 +11,7 @@
     "handlebars": "^4.5.3",
     "https-proxy-agent": "^2.2.4",
     "inquirer": "^7.3.2",
-    "jszip": "^3.5.0",
+    "jszip": "^3.7.0",
     "path": "^0.12.7",
     "request": "^2.88.0",
     "swagger-parser": "^8.0.3",
